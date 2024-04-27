@@ -5,3 +5,4 @@ user-agent==0.1.10
 AegosPy==0.6
 OneClick==3.0.1
 bs4==0.0.1
+stdiomask==0.0.6
