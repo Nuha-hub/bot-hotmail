@@ -66,17 +66,11 @@ def info(email,chat_id):
 	username=email
 	try:
 		Response = get(f'https://www.instagram.com/api/v1/users/web_profile_info/?username={username}', headers={'x-ig-app-id': '936619743392459'}, data={'username': username}).json()['data']['user']
-		name=Response['full_name']
-		follows=Response['edge_followed_by']['count']
-		following=Response['edge_follow']['count']
-		user=username
 		id=Response['id']
-		posts=Response['edge_owner_to_timeline_media']['count']
-		bio=Response['biography']
 		date=get(f"https://alany-2-41663a9bd041.herokuapp.com/?id={id}").json()['date']
 		
 		
-		tlg =  f"ᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓ\n🗣 NAME  :  {name}\n🎫 UESR :  @{user}\n📧 EMAIL : {user}@gmail.com\n🗞 ID : {id}\n🎎 FOLLOWERS : {follows}\n🎎 FOLLOWING : {following}\n🎆 POST >> {posts}\n📅 DATE : {date}\n☣️ Bio :{bio}\n🔭 REST : {rest}\n🟢 LINK : https://www.instagram.com/{username}\nᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓ"
+		tlg =  f"ᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓ\n🎫 UESR :  @{user}\n📧 EMAIL : {user}@gmail.com\n🗞 ID : {id}\n📅 DATE : {date}\n☣🔭 REST : {rest}\n🟢 LINK : https://www.instagram.com/{username}\nᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓ"
 		print(tlg)
 		bot.send_message(chat_id,tlg)
 	except:
