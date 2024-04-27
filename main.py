@@ -73,7 +73,8 @@ def info(email,chat_id):
 		tlg =  f"ᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓ\n🎫 UESR :  @{user}\n📧 EMAIL : {user}@gmail.com\n🗞 ID : {id}\n📅 DATE : {date}\n☣🔭 REST : {rest}\n🟢 LINK : https://www.instagram.com/{username}\nᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓ"
 		print(tlg)
 		bot.send_message(chat_id,tlg)
-	except:
+	except Exception as e:
+		print(e)
 		bot.send_message(chat_id,f"hit : \n username : {username}\nemail : {username}@hotmail.com\nrest : {rest}")
 #-------------------------------------------------#
 good=0
