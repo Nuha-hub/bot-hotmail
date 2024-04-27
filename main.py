@@ -69,7 +69,7 @@ def insta(email):
 #-------------------------------------------------#
 def chkhh(email):
 	def chkhotmail(email):
-		req=hotmail(email)['status']
+		req=hotmail(email)
 		if 'good' in req:
 			return 'good'
 		else:
