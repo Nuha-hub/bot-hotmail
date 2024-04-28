@@ -68,7 +68,7 @@ def info(email,chat_id):
 #-------------------------------------------------#
 good=0
 bad=0
-bot = telebot.TeleBot('7061973890:AAH3CBJ-SJyj97DcZV9_CTi2n8dTULbJFoE')
+bot = telebot.TeleBot('6633268373:AAH4_4GL7TGvg3FGfnijhHy7-X4uS2K0pkQ')
 user_step = {}
 #-------------------------------------------------#
 def hotmail(email):
