@@ -23,6 +23,7 @@ import os
 import random	
 import time
 from AegosPy import *
+sta=True
 #-------------------------------------------------#
 def oo(email):
 	url='https://i.instagram.com/api/v1/accounts/send_recovery_flow_email/'
@@ -58,28 +59,16 @@ def oo(email):
 	except:
 		return s
 #-------------------------------------------------#
-from requests import get
 def info(email,chat_id):	
 	if "@" in email:
 		email=email.split("@")[0]
 	rest=oo(email)
 	username=email
-	try:
-		Response = get(f'https://www.instagram.com/api/v1/users/web_profile_info/?username={username}', headers={'x-ig-app-id': '936619743392459'}, data={'username': username}).json()['data']['user']
-		id=Response['id']
-		date=get(f"https://alany-2-41663a9bd041.herokuapp.com/?id={id}").json()['date']
-		
-		
-		tlg =  f"ᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓ\n🎫 UESR :  @{user}\n📧 EMAIL : {user}@gmail.com\n🗞 ID : {id}\n📅 DATE : {date}\n☣🔭 REST : {rest}\n🟢 LINK : https://www.instagram.com/{username}\nᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓᯓ"
-		print(tlg)
-		bot.send_message(chat_id,tlg)
-	except Exception as e:
-		print(e)
-		bot.send_message(chat_id,f"hit : \n username : {username}\nemail : {username}@hotmail.com\nrest : {rest}")
+	bot.send_message(chat_id,f"hit : \n username : {username}\nemail : {username}@hotmail.com\nrest : {rest}")
 #-------------------------------------------------#
 good=0
 bad=0
-bot = telebot.TeleBot('6548321283:AAE1Mbhxeg4T4NjJ3U7CYOlibKSpc-grv00')
+bot = telebot.TeleBot('7061973890:AAH3CBJ-SJyj97DcZV9_CTi2n8dTULbJFoE')
 user_step = {}
 #-------------------------------------------------#
 def hotmail(email):
@@ -140,35 +129,45 @@ def chkhh(email):
 @bot.message_handler(commands=['start'])
 def start(message):
 	markup = types.InlineKeyboardMarkup()
-	start_button = types.InlineKeyboardButton("بدء الصيد", callback_data='start_fishing')
-	developer_button = types.InlineKeyboardButton("المطور", url='t.me/te9egram')
-	markup.add(start_button, developer_button)
-	bot.send_message(message.chat.id, "اختر أحد الخيارات:", reply_markup=markup)
+	start_button = types.InlineKeyboardButton("- Start checking", callback_data='start_fishing')
+	developer_button = types.InlineKeyboardButton("- Programmer", url='t.me/te9egram')
+	status_button=types.InlineKeyboardButton("- Status", callback_data='status_fishing')
+	markup.add(start_button, status_button)
+	markup.add(developer_button)
+	bot.send_message(message.chat.id, "- Welcome to The Bot \n- Choose one of the buttons :", reply_markup=markup)
 #-------------------------------------------------#
-@bot.message_handler(commands=['status'])
-def status(message):
+@bot.callback_query_handler(func=lambda call: call.data == 'status_fishing')
+def status_fishing_callback(call):
 	global good,bad
-	bot.send_message(message.chat.id,f"- good : {good}\n- bad : {bad}")
+	if sta:
+		bot.send_message(call.message.chat.id,"- Start To Use It")
+	else:
+		bot.send_message(call.message.chat.id,f"- Good : {good}\n- Bad : {bad}")
 #-------------------------------------------------#
 @bot.callback_query_handler(func=lambda call: call.data == 'start_fishing')
 def start_fishing_callback(call):
-	user_step[call.message.chat.id] = 'waiting_for_file'
-	bot.send_message(call.message.chat.id, "يرجى إرسال الملف")
+	global sta
+	if sta:
+		user_step[call.message.chat.id] = 'waiting_for_file'
+		bot.send_message(call.message.chat.id, "- Send The File .")
+	else:
+		bot.send_message(call.message.chat.id, "- It is not possible to check two files at the same time !")
 #-------------------------------------------------#
 @bot.message_handler(func=lambda message: user_step.get(message.chat.id) == 'waiting_for_file', content_types=['document'])
 def handle_document(message):
-	global good , bad
+	global good , bad , sta
 	file_name = message.document.file_name
 	file_id = message.document.file_id
 	file_info = bot.get_file(file_id)
 	downloaded_file = bot.download_file(file_info.file_path)
 	with open(file_name, 'wb') as new_file:
 		new_file.write(downloaded_file)
-	bot.reply_to(message, "تم بدء الصيد.")
+	bot.reply_to(message, "- The check has been started .")
 	user_step[message.chat.id] = None  
 	file = open(file_name, "r")
 	file = file.read().split('\n')
 	num_threads = 15  
+	sta=False
 	with ThreadPoolExecutor(max_workers=num_threads) as executor:
 		for guii in file:
 			try:
@@ -178,20 +177,19 @@ def handle_document(message):
 				pass
 
 			
-	print(f"تم الانتهاء-  من الفحص\n- hit : {good}\n- bad : {bad}")
-	bot.send_message(message.chat.id,f"تم الانتهاء-  من الفحص\n- hit : {good}\n- bad : {bad}")
+	print(f"- Done Check file .\n- Good : {good}\n- Bad : {bad}")
+	bot.send_message(message.chat.id,f"- Done Check file .\n- Good : {good}\n- Bad : {bad}")
 	os.remove(file_name)
 	good=0
 	bad=0
+	sta=True
 #-------------------------------------------------#
 def check_account(email, chat_id):
 	global good , bad
 	oo = chkhh(email)
-	print(oo)
 	if "good" in oo:
 		good+=1
 		info(email,chat_id)
-		#bot.send_message(chat_id,f"- {oo}\n- email:{email}")
 	else:
 		bad += 1
 #-------------------------------------------------#
