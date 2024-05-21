@@ -81,15 +81,6 @@ def hotmail(email):
 	else:
 		return 'bad'
 def insta(email):
-	def get_proxs():
-		o=requests.get("https://github.com/Nuha-hub/check-insta/blob/main/proxies.txt").text
-		oo='"]'
-		m="["+o.split("['27.147.24.205:8080',")[1].split(f"'117.93.115.31:28643']{oo}")[0].strip()+"]"
-		m = m.strip('[]').replace("'", "")
-		my_list = m.split(',')
-		proxy=random.choice(my_list)
-		proxs= {'http': f'socks4://{proxy}'}
-		return proxs
 	def chk(email):
 	  ma = requests.Session()
 	  g = str(''.join(random.choice('qwertyuiopasdfghjklzxcvbnm') for i in range(8)))
@@ -102,8 +93,7 @@ def insta(email):
 	              "x-csrftoken": ctk,
 	              "x-ig-www-claim": "0",
 	          }
-	  r=get_proxs()
-	  rs3 = ma.post("https://www.instagram.com/api/v1/web/accounts/login/ajax/",headers=headers,data={"enc_password": password,"username": email,"queryParams": "{}","optIntoOneTap": "false","trustedDeviceRecords": "{}"},proxies=r)
+	  rs3 = ma.post("https://www.instagram.com/api/v1/web/accounts/login/ajax/",headers=headers,data={"enc_password": password,"username": email,"queryParams": "{}","optIntoOneTap": "false","trustedDeviceRecords": "{}"})
 	
 	  headers.update({"x-ig-set-www-claim":"0"})
 	  headers.update({"x-csrftoken": ctk})
@@ -165,7 +155,7 @@ def handle_document(message):
 	bot.reply_to(message, "- The check has been started .")
 	user_step[message.chat.id] = None  
 	file = open(file_name, "r")
-	file = file.read().split('\n')
+	file = file.read().strip().split('\n')
 	num_threads = 15  
 	sta=False
 	with ThreadPoolExecutor(max_workers=num_threads) as executor:
