@@ -62,9 +62,19 @@ def oo(email):
 def info(email,chat_id):	
 	if "@" in email:
 		email=email.split("@")[0]
+	info=get('https://anonyig.com/api/ig/userInfoByUsername/'+username).json()
+	bio=info['result']['user']['biography']
+	name=info['result']['user']['full_name']
+	prv=info['result']['user']['is_private']
+	fow=info['result']['user']['follower_count']
+	fwi=info['result']['user']['following_count']
+	posts=info['result']['user']['media_count']
+	id=info['result']['user']['pk']
+	date = get('https://alany-2-41663a9bd041.herokuapp.com/',params={'id':id}).json()['date']
+	iinfoo=(f"Name : {name}\nBio : {bio}\nemail:{username}@hotmail.com\nFollowers : {fow}\nFollowing : {fwi}\nPosts : {posts}\nIs private : {prv}\nId : {id}\nRest : {rest}\nDate : {date}")
 	rest=oo(email)
 	username=email
-	bot.send_message(chat_id,f"hit : \n username : {username}\nemail : {username}@hotmail.com\nrest : {rest}")
+	bot.send_message(chat_id,f"{iinfoo}")
 #-------------------------------------------------#
 good=0
 bad=0
