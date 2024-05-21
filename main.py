@@ -62,6 +62,7 @@ def oo(email):
 def info(email,chat_id):	
 	if "@" in email:
 		email=email.split("@")[0]
+	username=email
 	info=get('https://anonyig.com/api/ig/userInfoByUsername/'+username).json()
 	bio=info['result']['user']['biography']
 	name=info['result']['user']['full_name']
@@ -70,15 +71,16 @@ def info(email,chat_id):
 	fwi=info['result']['user']['following_count']
 	posts=info['result']['user']['media_count']
 	id=info['result']['user']['pk']
+	rest=oo(email)
 	date = get('https://alany-2-41663a9bd041.herokuapp.com/',params={'id':id}).json()['date']
 	iinfoo=(f"Name : {name}\nBio : {bio}\nemail:{username}@hotmail.com\nFollowers : {fow}\nFollowing : {fwi}\nPosts : {posts}\nIs private : {prv}\nId : {id}\nRest : {rest}\nDate : {date}")
-	rest=oo(email)
-	username=email
+	
+	
 	bot.send_message(chat_id,f"{iinfoo}")
 #-------------------------------------------------#
 good=0
 bad=0
-bot = telebot.TeleBot('6633268373:AAH4_4GL7TGvg3FGfnijhHy7-X4uS2K0pkQ')
+bot = telebot.TeleBot('7170075043:AAFCuv3HA0jbOvJGv70IxWjfE-Hg7pE02iw')
 user_step = {}
 #-------------------------------------------------#
 def hotmail(email):
@@ -189,7 +191,10 @@ def check_account(email, chat_id):
 	oo = chkhh(email)
 	if "good" in oo:
 		good+=1
-		info(email,chat_id)
+		try:
+			info(email,chat_id)
+		except Exception as e:
+			print(e)
 	else:
 		bad += 1
 #-------------------------------------------------#
